@@ -25,6 +25,18 @@ const App = () => {
     },
 ])
 
+const deleteTask = (id) => {
+  // console.log('delete', id);
+  setTasks(tasks.filter((task) => task.id !== id));
+}
+
+// Toggle Reminder
+const toggleReminder = (id) => {
+  console.log('toggle');
+  setTasks(tasks.map((task) => task.id === id ?
+  {...task, reminder: !task.reminder} : task))
+}
+
 
   const name = 'Jose';
   const isEnabled = true;
@@ -34,7 +46,13 @@ const App = () => {
       <h2>My name is {name}</h2>
       <h2>Enabled: {isEnabled ? 'Yes' : 'No'}</h2>
       <Header />
-      <Tasks tasks={tasks} />
+      {
+        tasks.length > 0 ?
+        <Tasks tasks={tasks}
+        onDelete={deleteTask}
+        onToggle={toggleReminder} /> :
+        'No tasks'
+      }
     </div>
   );
 }
