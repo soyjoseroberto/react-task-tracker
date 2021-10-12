@@ -2,8 +2,10 @@ import './App.css';
 import { useState } from 'react';
 import Header from './components/Header';
 import Tasks from './components/Tasks';
+import AddTask from './components/AddTask';
 
 const App = () => {
+  const [showAddTask, setShowAddTask] = useState(true);
   const [tasks, setTasks] = useState([
     {
         id: 1,
@@ -25,6 +27,16 @@ const App = () => {
     },
 ])
 
+// Add Task
+const addTask = (task) => {
+  // console.log(task);
+  const id = Math.floor(Math.random() * 10000) + 1;
+
+  const newTask = {id, ...task}
+  setTasks([...tasks, newTask]);
+}
+
+// Delete task
 const deleteTask = (id) => {
   // console.log('delete', id);
   setTasks(tasks.filter((task) => task.id !== id));
@@ -45,7 +57,9 @@ const toggleReminder = (id) => {
       <h1>Hello From React</h1>
       <h2>My name is {name}</h2>
       <h2>Enabled: {isEnabled ? 'Yes' : 'No'}</h2>
-      <Header />
+      <Header onAdd={() => setShowAddTask(!showAddTask)}
+          showAdd={showAddTask} />
+      {showAddTask && <AddTask onAdd={addTask} />}
       {
         tasks.length > 0 ?
         <Tasks tasks={tasks}
